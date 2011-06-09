@@ -1,0 +1,70 @@
+=head1 NAME
+
+URL::Encode - Provides functions to encode and decode URL-encoded data.
+
+=head1 SYNOPSIS
+
+    $octets = url_decode($octets);
+    $string = url_decode_utf8($octets);
+    $octets = url_encode($octets);
+    $octets = url_encode_utf8($string);
+              url_params_each($octets, $callback [, $utf8 = false]);
+    $params = url_params_flat($octets [, $utf8 = false]);
+    $params = url_params_mixed($octets [, $utf8 = false]);
+    $params = url_params_multi($octets [, $utf8 = false]);
+
+=head1 DESCRIPTION
+
+=head1 FUNCTIONS
+
+=head2 url_decode
+
+=head2 url_decode_utf8
+
+=head2 url_encode
+
+=head2 url_encode_utf8
+
+=head2 url_params_each
+
+=head2 url_params_flat
+
+=head2 url_params_mixed
+
+=head2 url_params_multi
+
+=head1 EXPORTS
+
+None by default. All functions can be exported using the C<:all> tag or individually.
+
+=head1 DIAGNOSTICS
+
+=over 4
+
+=item B<(F)> Usage: %s
+
+Subroutine called with wrong number of arguments.
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item L<CGI::Deurl::XS>
+
+=item L<URL::Encode::XS>
+
+=back
+
+=head1 AUTHOR
+
+Christian Hansen C<chansen@cpan.org>
+
+=head1 COPYRIGHT
+
+Copyright 2011 by Christian Hansen.
+
+This library is free software; you can redistribute it and/or modify 
+it under the same terms as Perl itself.
+
