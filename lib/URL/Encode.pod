@@ -1,6 +1,6 @@
 =head1 NAME
 
-URL::Encode - Provides functions to encode and decode URL-encoded data.
+URL::Encode - Provides functions to encode and decode C<application/x-www-form-urlencoded> format.
 
 =head1 SYNOPSIS
 
@@ -19,19 +19,77 @@ URL::Encode - Provides functions to encode and decode URL-encoded data.
 
 =head2 url_decode
 
+Decodes an escaped octet string.
+
+I<Usage>
+
+    $octets = url_decode($octets);
+
 =head2 url_decode_utf8
+
+Decodes an escaped octet string using the UTF-8 encoding scheme.
+
+I<Usage>
+
+    $string = url_decode_utf8($octets);
 
 =head2 url_encode
 
+Encodes an octet string into an escaped format.
+
+I<Usage>
+
+    $octets = url_encode($octets);
+
 =head2 url_encode_utf8
+
+Encodes a character string into an escaped format using the UTF-8 encoding scheme.
+
+I<Usage>
+
+    $octets = url_encode($string);
 
 =head2 url_params_each
 
+Parses a encoded data set invoking a callback for each name/value pair.
+
+I<Usage>
+
+    url_params_each($octets, $callback);
+    url_params_each($octets, $callback, $utf8);
+
 =head2 url_params_flat
+
+Parses a encoded data set into an C<ARRAY> reference like:
+
+    [ "name", "value", "name", "value" ]
+
+I<Usage>
+
+    $array = url_params_flat($octets);
+    $array = url_params_flat($octets, $utf8);
 
 =head2 url_params_mixed
 
+Parses a encoded data set into a C<HASH> reference like:
+
+    { name => "value", name => [ "value", "value" ] }
+
+I<Usage>
+
+    $hash = url_params_mixed($octets);
+    $hash = url_params_mixed($octets, $utf8);
+
 =head2 url_params_multi
+
+Parses a encoded data set into a C<HASH> reference like:
+
+    { name => [ "value" ], name => [ "value", "value" ] }
+
+I<Usage>
+
+    $hash = url_params_multi($octets);
+    $hash = url_params_multi($octets, $utf8);
 
 =head1 EXPORTS
 
@@ -51,11 +109,18 @@ Subroutine called with wrong number of arguments.
 
 =over 4
 
-=item L<CGI::Deurl::XS>
-
 =item L<URL::Encode::XS>
 
+XS implementation of C<URL::Encode>.
+
+=item L<CGI::Deurl::XS>
+
 =back
+
+=head1 SUPPORT
+
+Please report any bugs or feature requests to C<bug-url-encode@rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=URL-Encode>
 
 =head1 AUTHOR
 
