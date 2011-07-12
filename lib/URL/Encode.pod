@@ -1,6 +1,6 @@
 =head1 NAME
 
-URL::Encode - Provides functions to encode and decode C<application/x-www-form-urlencoded> format.
+URL::Encode - Encoding and decoding of C<application/x-www-form-urlencoded> encoding.
 
 =head1 SYNOPSIS
 
@@ -15,11 +15,14 @@ URL::Encode - Provides functions to encode and decode C<application/x-www-form-u
 
 =head1 DESCRIPTION
 
+This module provides functions to encode and decode strings into and from the 
+C<application/x-www-form-urlencoded> encoding.
+
 =head1 FUNCTIONS
 
 =head2 url_decode
 
-Decodes an escaped octet string.
+Decodes a urlencoded octet string.
 
 I<Usage>
 
@@ -27,7 +30,7 @@ I<Usage>
 
 =head2 url_decode_utf8
 
-Decodes an escaped octet string using the UTF-8 encoding scheme.
+Decodes a urlencoded octet string using the UTF-8 encoding scheme.
 
 I<Usage>
 
@@ -35,7 +38,7 @@ I<Usage>
 
 =head2 url_encode
 
-Encodes an octet string into an escaped format.
+Encodes an octet string into a urlencoded encoding.
 
 I<Usage>
 
@@ -43,7 +46,8 @@ I<Usage>
 
 =head2 url_encode_utf8
 
-Encodes a character string into an escaped format using the UTF-8 encoding scheme.
+Encodes a character string into a urlencoded encoding using the UTF-8 encoding
+scheme.
 
 I<Usage>
 
@@ -51,16 +55,20 @@ I<Usage>
 
 =head2 url_params_each
 
-Parses a encoded data set invoking a callback for each name/value pair.
+Decodes a urlencoded data set invoking a callback for each name/value pair.
 
 I<Usage>
+
+    $callback = sub {
+        my ($name, $value) = @_;
+    };
 
     url_params_each($octets, $callback);
     url_params_each($octets, $callback, $utf8);
 
 =head2 url_params_flat
 
-Parses a encoded data set into an C<ARRAY> reference like:
+Decodes a urlencoded data set into an C<ARRAY> reference like:
 
     [ "name", "value", "name", "value" ]
 
@@ -71,7 +79,7 @@ I<Usage>
 
 =head2 url_params_mixed
 
-Parses a encoded data set into a C<HASH> reference like:
+Decodes a urlencoded data set into a C<HASH> reference like:
 
     { name => "value", name => [ "value", "value" ] }
 
@@ -82,7 +90,7 @@ I<Usage>
 
 =head2 url_params_multi
 
-Parses a encoded data set into a C<HASH> reference like:
+Decodes a urlencoded data set into a C<HASH> reference like:
 
     { name => [ "value" ], name => [ "value", "value" ] }
 
@@ -102,6 +110,10 @@ None by default. All functions can be exported using the C<:all> tag or individu
 =item B<(F)> Usage: %s
 
 Subroutine called with wrong number of arguments.
+
+=item B<(F)> Wide character in octet string
+
+=item B<(F)> Malformed UTF-8 in URL-decoded octets
 
 =back
 
