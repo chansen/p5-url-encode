@@ -8,10 +8,11 @@ URL::Encode - Encoding and decoding of C<application/x-www-form-urlencoded> enco
     $string = url_decode_utf8($octets);
     $octets = url_encode($octets);
     $octets = url_encode_utf8($string);
-              url_params_each($octets, $callback [, $utf8 = false]);
+    
     $params = url_params_flat($octets [, $utf8 = false]);
     $params = url_params_mixed($octets [, $utf8 = false]);
     $params = url_params_multi($octets [, $utf8 = false]);
+              url_params_each($octets, $callback [, $utf8 = false]);
 
 =head1 DESCRIPTION
 
@@ -22,23 +23,19 @@ C<application/x-www-form-urlencoded> encoding.
 
 =head2 url_decode
 
-Decodes a urlencoded octet string.
-
-I<Usage>
-
     $octets = url_decode($octets);
+    
+Decodes a URL-encoded octet string.
 
 =head2 url_decode_utf8
 
-Decodes a urlencoded octet string using the UTF-8 encoding scheme.
-
-I<Usage>
-
     $string = url_decode_utf8($octets);
+
+Decodes a URL-encoded octet string using the UTF-8 encoding scheme.
 
 =head2 url_encode
 
-Encodes an octet string into a urlencoded encoding.
+Encodes an octet string into a URL-encoded encoding.
 
 I<Usage>
 
@@ -46,58 +43,62 @@ I<Usage>
 
 =head2 url_encode_utf8
 
-Encodes a character string into a urlencoded encoding using the UTF-8 encoding
+Encodes a character string into a URL-encoded encoding using the UTF-8 encoding
 scheme.
 
 I<Usage>
 
-    $octets = url_encode($string);
+    $octets = url_encode_utf8($string);
+
+=head2 url_params_flat
+
+    $set = url_params_flat($octets);
+    $set = url_params_flat($octets, $utf8);
+
+Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Returns an ARRAY reference containing the URL-decoded name/value pairs.
+
+    $set = url_params_flat('foo=A&foo=B&bar=C');
+    $set; # [ foo => 'A', foo => 'B', bar => 'C' ]
+
+=head2 url_params_mixed
+
+    $set = url_params_mixed($octets);
+    $set = url_params_mixed($octets, $utf8);
+
+Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Returns a HASH reference containing the URL-decoded name/value pairs. Multiple 
+occurrences of a parameter will result in an ARRAY reference holding all 
+the values for that parameter in order.
+
+    $set = url_params_mixed('foo=A&foo=B&bar=C');
+    $set; # { foo => [ 'A', 'B' ], bar => 'C' }
+
+=head2 url_params_multi
+
+    $set = url_params_multi($octets);
+    $set = url_params_multi($octets, $utf8);
+
+Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Returns a HASH reference containing the URL-decoded name/value pairs. Values 
+are stored in an ARRAY reference.
+
+    $set = url_params_multi('foo=A&foo=B&bar=C');
+    $set; # { foo => [ 'A', 'B' ], bar => [ 'C' ] }
 
 =head2 url_params_each
-
-Decodes a urlencoded data set invoking a callback for each name/value pair.
-
-I<Usage>
-
-    $callback = sub {
-        my ($name, $value) = @_;
-    };
 
     url_params_each($octets, $callback);
     url_params_each($octets, $callback, $utf8);
 
-=head2 url_params_flat
+Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Invokes the given callback for each URL-decoded name/value pair.
 
-Decodes a urlencoded data set into an C<ARRAY> reference like:
-
-    [ "name", "value", "name", "value" ]
-
-I<Usage>
-
-    $array = url_params_flat($octets);
-    $array = url_params_flat($octets, $utf8);
-
-=head2 url_params_mixed
-
-Decodes a urlencoded data set into a C<HASH> reference like:
-
-    { name => "value", name => [ "value", "value" ] }
-
-I<Usage>
-
-    $hash = url_params_mixed($octets);
-    $hash = url_params_mixed($octets, $utf8);
-
-=head2 url_params_multi
-
-Decodes a urlencoded data set into a C<HASH> reference like:
-
-    { name => [ "value" ], name => [ "value", "value" ] }
-
-I<Usage>
-
-    $hash = url_params_multi($octets);
-    $hash = url_params_multi($octets, $utf8);
+    $callback = sub {
+        my ($name, $value) = @_;
+    };
+    
+    url_params_each($octets, $callback);
 
 =head1 EXPORTS
 
@@ -140,7 +141,7 @@ Christian Hansen C<chansen@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright 2011 by Christian Hansen.
+Copyright 2013 by Christian Hansen.
 
 This library is free software; you can redistribute it and/or modify 
 it under the same terms as Perl itself.
