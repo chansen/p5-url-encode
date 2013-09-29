@@ -35,20 +35,16 @@ Decodes a URL-encoded octet string using the UTF-8 encoding scheme.
 
 =head2 url_encode
 
-Encodes an octet string into a URL-encoded encoding.
-
-I<Usage>
-
     $octets = url_encode($octets);
+
+Encodes an octet string into a URL-encoded encoding.
 
 =head2 url_encode_utf8
 
+    $octets = url_encode_utf8($string);
+
 Encodes a character string into a URL-encoded encoding using the UTF-8 encoding
 scheme.
-
-I<Usage>
-
-    $octets = url_encode_utf8($string);
 
 =head2 url_params_flat
 
@@ -56,7 +52,7 @@ I<Usage>
     $set = url_params_flat($octets, $utf8);
 
 Parses a URL-encoded form data set of name/value pairs from the given octets. 
-Returns an ARRAY reference containing the URL-decoded name/value pairs.
+Returns an ARRAY reference containing the URL-decoded name/value pairs in order.
 
     $set = url_params_flat('foo=A&foo=B&bar=C');
     $set; # [ foo => 'A', foo => 'B', bar => 'C' ]
