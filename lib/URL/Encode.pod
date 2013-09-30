@@ -50,7 +50,7 @@ octet string.
 
     $string = url_decode_utf8($octets);
 
-Returns a decoded representation of the given URL-encoded <$octets> in
+Returns a decoded representation of the given URL-encoded C<$octets> in
 UTF-8 encoding as a character string.
 
 =head2 url_encode
@@ -135,6 +135,36 @@ Subroutine called with wrong number of arguments.
 
 =back
 
+=head1 PERFORMANCE
+
+The L<URL::Encode::XS> module provides faster C/XS implementations of 
+the functions found in this module. This module will automatically use 
+L<URL::Encode::XS> if it's installed.
+
+    Benchmarking url_decode() PP vs XS:
+
+            Rate    PP    XS
+    PP  507520/s    --  -92%
+    XS 6389812/s 1159%    --
+
+    Benchmarking url_encode() PP vs XS:
+
+            Rate    PP    XS
+    PP  119866/s    --  -98%
+    XS 7214089/s 5918%    --
+
+    Benchmarking url_params_mixed() PP vs XS:
+
+          Rate    PP    XS
+    PP  4450/s    --  -95%
+    XS 95015/s 2035%    --
+
+    Benchmarking URL::Encode::XS vs CGI::Deurl::XS
+
+                       Rate  CGI::Deurl::XS URL::Encode::XS
+    CGI::Deurl::XS  51932/s              --            -48%
+    URL::Encode::XS 99444/s             91%              --
+
 =head1 SEE ALSO
 
 =over 4
@@ -149,8 +179,20 @@ XS implementation of C<URL::Encode>.
 
 =head1 SUPPORT
 
-Please report any bugs or feature requests to C<bug-url-encode@rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=URL-Encode>
+=head2 BUGS
+
+Please report any bugs by email to C<bug-url-encode at rt.cpan.org>, or 
+through the web interface at L<http://rt.cpan.org/Public/Dist/Display.html?Name=URL-Encode>. 
+You will be automatically notified of any progress on the request by the system.
+
+=head2 SOURCE CODE
+
+This is open source software. The code repository is available for public 
+review and contribution under the terms of the license.
+
+L<http://github.com/chansen/p5-url-encode>
+
+    git clone http://github.com/chansen/p5-url-encode
 
 =head1 AUTHOR
 
@@ -158,7 +200,7 @@ Christian Hansen C<chansen@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright 2013 by Christian Hansen.
+Copyright 2011-2013 by Christian Hansen.
 
 This library is free software; you can redistribute it and/or modify 
 it under the same terms as Perl itself.
