@@ -6,6 +6,7 @@ URL::Encode - Encoding and decoding of C<application/x-www-form-urlencoded> enco
 
     $octets = url_decode($octets);
     $string = url_decode_utf8($octets);
+    
     $octets = url_encode($octets);
     $octets = url_encode_utf8($string);
     
@@ -19,75 +20,95 @@ URL::Encode - Encoding and decoding of C<application/x-www-form-urlencoded> enco
 This module provides functions to encode and decode strings into and from the 
 C<application/x-www-form-urlencoded> encoding.
 
+The C<application/x-www-form-urlencoded> format encodes a ordered data sets of
+pairs consisting of a name and a value, with pairs seperated by ampersand and 
+names and values seperated by the equal sign. Space characters are replaced
+with plus sign and any characters not in the unreserved character set is 
+encoded using the percent-encoding scheme also used for resource identifiers. 
+A percent-encoded octet is encoded as a character triplet, consisting of the 
+percent character "%" followed by the two hexadecimal digits representing 
+that octet's numeric value.
+
+The unreserved character set includes the uppercase and lowercase letters, 
+decimal digits, hyphen, period, underscore, and tilde.
+
+    ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    abcdefghijklmnopqrstuvwxyz
+    0123456789
+    - . _ ~
+
 =head1 FUNCTIONS
 
 =head2 url_decode
 
     $octets = url_decode($octets);
     
-Decodes a URL-encoded octet string.
+Returns a decoded representation of the given URL-encoded C<$octets> as an 
+octet string.
 
 =head2 url_decode_utf8
 
     $string = url_decode_utf8($octets);
 
-Decodes a URL-encoded octet string using the UTF-8 encoding scheme.
+Returns a decoded representation of the given URL-encoded <$octets> in
+UTF-8 encoding as a character string.
 
 =head2 url_encode
 
     $octets = url_encode($octets);
 
-Encodes an octet string into a URL-encoded encoding.
+Returns a URL-encoded representation of the given C<$octets> as an octet 
+string.
 
 =head2 url_encode_utf8
 
     $octets = url_encode_utf8($string);
 
-Encodes a character string into a URL-encoded encoding using the UTF-8 encoding
-scheme.
+Returns a URL-encoded representation of C<$string> in UTF-8 encoding as an 
+octet string.
 
 =head2 url_params_flat
 
-    $set = url_params_flat($octets);
-    $set = url_params_flat($octets, $utf8);
+    $params = url_params_flat($octets);
+    $params = url_params_flat($octets, $utf8);
 
-Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Parses a URL-encoded form data sets of name/value pairs from the given octets. 
 Returns an ARRAY reference containing the URL-decoded name/value pairs in order.
 
-    $set = url_params_flat('foo=A&foo=B&bar=C');
-    $set; # [ foo => 'A', foo => 'B', bar => 'C' ]
+    $params = url_params_flat('foo=A&foo=B&bar=C');
+    $params; # [ foo => 'A', foo => 'B', bar => 'C' ]
 
 =head2 url_params_mixed
 
-    $set = url_params_mixed($octets);
-    $set = url_params_mixed($octets, $utf8);
+    $params = url_params_mixed($octets);
+    $params = url_params_mixed($octets, $utf8);
 
-Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Parses a URL-encoded form data sets of name/value pairs from the given octets. 
 Returns a HASH reference containing the URL-decoded name/value pairs. Multiple 
 occurrences of a parameter will result in an ARRAY reference holding all 
 the values for that parameter in order.
 
-    $set = url_params_mixed('foo=A&foo=B&bar=C');
-    $set; # { foo => [ 'A', 'B' ], bar => 'C' }
+    $params = url_params_mixed('foo=A&foo=B&bar=C');
+    $params; # { foo => [ 'A', 'B' ], bar => 'C' }
 
 =head2 url_params_multi
 
-    $set = url_params_multi($octets);
-    $set = url_params_multi($octets, $utf8);
+    $params = url_params_multi($octets);
+    $params = url_params_multi($octets, $utf8);
 
-Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Parses a URL-encoded form data sets of name/value pairs from the given octets. 
 Returns a HASH reference containing the URL-decoded name/value pairs. Values 
 are stored in an ARRAY reference.
 
-    $set = url_params_multi('foo=A&foo=B&bar=C');
-    $set; # { foo => [ 'A', 'B' ], bar => [ 'C' ] }
+    $params = url_params_multi('foo=A&foo=B&bar=C');
+    $params; # { foo => [ 'A', 'B' ], bar => [ 'C' ] }
 
 =head2 url_params_each
 
     url_params_each($octets, $callback);
     url_params_each($octets, $callback, $utf8);
 
-Parses a URL-encoded form data set of name/value pairs from the given octets. 
+Parses a URL-encoded form data sets of name/value pairs from the given octets. 
 Invokes the given callback for each URL-decoded name/value pair.
 
     $callback = sub {
