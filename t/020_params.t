@@ -45,3 +45,24 @@ my $enc = 'foo=1&bar=2&bar=3';
     is($cnt, 3, 'url_params_each(): callback invoked three times');
 }
 
+
+{
+    my $enc = 'foo=1;bar=2;bar=3';
+    my $exp = [ foo => 1, bar => 2, bar => 3 ];
+    my $got = url_params_flat($enc);
+    is_deeply($got, $exp, 'url_params_flat()');
+}
+
+{
+    my $enc = 'foo=1& bar=2& bar=3';
+    my $exp = [ foo => 1, bar => 2, bar => 3 ];
+    my $got = url_params_flat($enc);
+    is_deeply($got, $exp, 'url_params_flat()');
+}
+
+{
+    my $enc = 'foo=1; bar=2& bar=3';
+    my $exp = [ foo => 1, bar => 2, bar => 3 ];
+    my $got = url_params_flat($enc);
+    is_deeply($got, $exp, 'url_params_flat()');
+}
