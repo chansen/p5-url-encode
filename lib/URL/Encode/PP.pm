@@ -74,9 +74,10 @@ sub url_params_each {
     utf8::downgrade($s, 1)
       or Carp::croak(q/Wide character in octet string/);
 
-    foreach my $pair (split /[&]/, $s) {
+    foreach my $pair (split /[&;] ?/, $s) {
         my ($k, $v) = split /=/, $pair, 2;
-        next unless defined $k && defined $v;
+        next unless defined $k;
+        $v = '' unless defined $v;
         for ($k, $v) {
             y/+/\x20/;
             s/%([0-9a-fA-F]{2})/$DecodeMap{$1}/gs;
