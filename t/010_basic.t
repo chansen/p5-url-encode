@@ -3,13 +3,13 @@
 use strict;
 use warnings;
 
-use Test::More 'no_plan';
+use Test::More;
 
 BEGIN {
-    use_ok('URL::Encode', qw[ url_encode
-                              url_encode_utf8
-                              url_decode
-                              url_decode_utf8 ]);
+    use_ok('URL::Encode::PP', qw[ url_encode
+                                  url_encode_utf8
+                                  url_decode
+                                  url_decode_utf8 ]);
 }
 
 sub UNRESERVED () {  "0123456789"
@@ -63,5 +63,5 @@ foreach my $test (@tests) {
     is(url_decode($enc), $dec, 'mixed hexadecimal case');
 }
 
-
+done_testing();
 

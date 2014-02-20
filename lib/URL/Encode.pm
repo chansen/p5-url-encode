@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 BEGIN {
-    our $VERSION   = '0.02';
+    our $VERSION   = '0.03';
     our @EXPORT_OK = qw[ url_encode
                          url_encode_utf8
                          url_decode
@@ -20,7 +20,7 @@ BEGIN {
 
     if (!$use_pp) {
         eval { 
-            require URL::Encode::XS;
+            require URL::Encode::XS; URL::Encode::XS->import('0.03');
         };
         $use_pp = !!$@;
     }
