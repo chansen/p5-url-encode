@@ -20,14 +20,14 @@ URL::Encode - Encoding and decoding of C<application/x-www-form-urlencoded> enco
 This module provides functions to encode and decode strings into and from the 
 C<application/x-www-form-urlencoded> encoding.
 
-The C<application/x-www-form-urlencoded> format encodes a ordered data sets of
-pairs consisting of a name and a value, with pairs seperated by ampersand and 
-names and values seperated by the equal sign. Space characters are replaced
-with plus sign and any characters not in the unreserved character set is 
-encoded using the percent-encoding scheme also used for resource identifiers. 
-A percent-encoded octet is encoded as a character triplet, consisting of the 
-percent character "%" followed by the two hexadecimal digits representing 
-that octet's numeric value.
+The C<application/x-www-form-urlencoded> format encodes a ordered data 
+sets of pairs consisting of a name and a value, with pairs seperated by 
+ampersand or semicolon and names and values seperated by the equal sign. 
+Space characters are replaced with plus sign and any characters not in 
+the unreserved character set is encoded using the percent-encoding scheme 
+also used for resource identifiers. A percent-encoded octet is encoded as 
+a character triplet, consisting of the percent character "%" followed by 
+the two hexadecimal digits representing that octet's numeric value.
 
 The unreserved character set includes the uppercase and lowercase letters, 
 decimal digits, hyphen, period, underscore, and tilde.
@@ -72,7 +72,7 @@ octet string.
     $params = url_params_flat($octets);
     $params = url_params_flat($octets, $utf8);
 
-Parses a URL-encoded form data sets of name/value pairs from the given octets. 
+Parses a URL-encoded data set of name/value pairs from the given octets. 
 Returns an ARRAY reference containing the URL-decoded name/value pairs in order.
 
     $params = url_params_flat('foo=A&foo=B&bar=C');
@@ -83,7 +83,7 @@ Returns an ARRAY reference containing the URL-decoded name/value pairs in order.
     $params = url_params_mixed($octets);
     $params = url_params_mixed($octets, $utf8);
 
-Parses a URL-encoded form data sets of name/value pairs from the given octets. 
+Parses a URL-encoded data set of name/value pairs from the given octets. 
 Returns a HASH reference containing the URL-decoded name/value pairs. Multiple 
 occurrences of a parameter will result in an ARRAY reference holding all 
 the values for that parameter in order.
@@ -96,7 +96,7 @@ the values for that parameter in order.
     $params = url_params_multi($octets);
     $params = url_params_multi($octets, $utf8);
 
-Parses a URL-encoded form data sets of name/value pairs from the given octets. 
+Parses a URL-encoded data set of name/value pairs from the given octets. 
 Returns a HASH reference containing the URL-decoded name/value pairs. Values 
 are stored in an ARRAY reference.
 
@@ -108,7 +108,7 @@ are stored in an ARRAY reference.
     url_params_each($octets, $callback);
     url_params_each($octets, $callback, $utf8);
 
-Parses a URL-encoded form data sets of name/value pairs from the given octets. 
+Parses a URL-encoded data set of name/value pairs from the given octets. 
 Invokes the given callback for each URL-decoded name/value pair.
 
     $callback = sub {
@@ -200,7 +200,7 @@ Christian Hansen C<chansen@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright 2011-2013 by Christian Hansen.
+Copyright 2011-2014 by Christian Hansen.
 
 This library is free software; you can redistribute it and/or modify 
 it under the same terms as Perl itself.
