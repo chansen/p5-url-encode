@@ -10,7 +10,7 @@ readme_from    'lib/URL/Encode.pod';
 requires       'Carp'             => '0';
 requires       'Exporter'         => '0';
 requires       'XSLoader'         => '0';
-test_requires  'Test::More'       => '0.47';
+test_requires  'Test::More'       => '0.88';
 makemaker_args INC => '-I.';
 
 tests 't/*.t t/*/*.t';
