@@ -6,7 +6,7 @@ use warnings;
 use Carp qw[];
 
 BEGIN {
-    our $VERSION   = '0.01';
+    our $VERSION   = '0.03';
     our @EXPORT_OK = qw[ url_encode
                          url_encode_utf8
                          url_decode
@@ -74,10 +74,10 @@ sub url_params_each {
     utf8::downgrade($s, 1)
       or Carp::croak(q/Wide character in octet string/);
 
-    foreach my $pair (split /[&]/, $s) {
-        my ($k, $v) = split /=/, $pair, 2;
-        next unless defined $k && defined $v;
-        for ($k, $v) {
+    foreach my $pair (split /[&;]/, $s, -1) {
+        my ($k, $v) = split '=', $pair, 2;
+        $k = '' unless defined $k;
+        for ($k, defined $v ? $v : ()) {
             y/+/\x20/;
             s/%([0-9a-fA-F]{2})/$DecodeMap{$1}/gs;
             if ($utf8) {
@@ -131,5 +131,4 @@ sub url_params_multi {
 }
 
 1;
-
 
