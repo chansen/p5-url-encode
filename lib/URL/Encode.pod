@@ -196,7 +196,7 @@ L<http://github.com/chansen/p5-url-encode>
 
 =head1 AUTHOR
 
-Christian Hansen C<chansen@cpan.org>
+Christian Hansen <chansen@cpan.org>
 
 =head1 COPYRIGHT
 
