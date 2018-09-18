@@ -14,7 +14,8 @@ BEGIN {
                          url_params_each
                          url_params_flat
                          url_params_mixed
-                         url_params_multi ];
+                         url_params_multi
+                         url_params_build ];
     require Exporter;
     *import = \&Exporter::import;
 }
@@ -128,6 +129,31 @@ sub url_params_multi {
     };
     url_params_each($_[0], $callback, $_[1]);
     return \%p;
+}
+
+sub url_params_build {
+    @_ == 1 || @_ == 2 || Carp::croak(q/Usage: url_params_build(params [, utf8 [, delim] ])/);
+    my ($p, $utf8, $delim) = @_;
+    $delim = '&' unless defined $delim;
+    utf8::encode($delim) if $utf8;
+
+    my @p = ref $p eq 'HASH' ? (map { ($_ => $p->{$_}) } sort keys %$p) : @$p;
+
+    my $s = '';
+    while (my ($k, $v) = splice @p, 0, 2) {
+        my @v = ref $v eq 'ARRAY' ? @$v : $v;
+        for ($k, @v) {
+            $_ = '' unless defined $_;
+            utf8::encode($_) if $utf8;
+            s/([^0-9A-Za-z_.~-])/$EncodeMap{$1}/gs;
+        }
+        for (@v) {
+            $s .= $delim if length $s;
+            $s .= "$k=$_";
+        }
+    }
+
+    return $s;
 }
 
 1;
