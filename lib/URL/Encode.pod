@@ -14,6 +14,8 @@ URL::Encode - Encoding and decoding of C<application/x-www-form-urlencoded> enco
     $params = url_params_mixed($octets [, $utf8 = false]);
     $params = url_params_multi($octets [, $utf8 = false]);
               url_params_each($octets, $callback [, $utf8 = false]);
+    
+    $octets = url_params_build($params [, $utf8 = false [, delim = '&'] ]);
 
 =head1 DESCRIPTION
 
@@ -116,6 +118,23 @@ Invokes the given callback for each URL-decoded name/value pair.
     };
     
     url_params_each($octets, $callback);
+
+=head2 url_params_build
+
+    $octets = url_params_build($params);
+    $octets = url_params_build($params, $utf8);
+    $octets = url_params_build($params, $utf8, $delim);
+
+Builds a URL-encoded string from the given ARRAY or HASH reference containing
+URL-decoded name/value pairs. Multiple occurrences of a parameter may be
+specified as an ARRAY reference of values in order. Keys of a HASH reference
+will be sorted for consistency.
+
+    $octets = url_params_build({ foo => [ 'A', 'B' ], bar => 'C' });
+    $octets; # bar=C&foo=A&foo=B
+
+    $octets = url_params_build([ foo => 'A', foo => 'B', bar => 'C' ]);
+    $octets; # foo=A&foo=B&bar=C
 
 =head1 EXPORTS
 
