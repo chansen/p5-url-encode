@@ -20,7 +20,7 @@ BEGIN {
 
     if (!$use_pp) {
         eval { 
-            require URL::Encode::XS; URL::Encode::XS->import('0.03');
+            require URL::Encode::XS; URL::Encode::XS->VERSION('0.03');
         };
         $use_pp = !!$@;
     }
